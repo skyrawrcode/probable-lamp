@@ -1,10 +1,14 @@
 import "./Scores.scss";
 
-import React, { FunctionComponent } from "react";
+import React, {  } from "react";
 
-import { netlifyAuth } from "../App";
+// import { netlifyAuth } from "../App";
 
-import netlifyIdentity, { User } from "netlify-identity-widget";
+// import netlifyIdentity, { User } from "netlify-identity-widget";
+
+// function timeout(ms:number) () {
+//     return new Promise()
+// }
 
 export class Scores extends React.Component {
   loadScores = () => {
