@@ -1,5 +1,5 @@
 build:
-	mkdir -p functions
+	mkdir functions
 	go get ./endpoints/...
-	go build -o functions/api ./endpoints/...
+	go build -o functions/users ./endpoints/users
 	npm run build
