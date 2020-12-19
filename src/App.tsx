@@ -13,12 +13,12 @@ import netlifyIdentity, { User } from "netlify-identity-widget";
 import { Home } from "./Home/Home";
 import { Scores } from "./Scores/Scores";
 
-const netlifyAuth = {
-  isAuthenticated: false,
+export const netlifyAuth = {
+ 
   user: null as any,
 
   authenticate(callback: (user: User) => any) {
-    this.isAuthenticated = true;
+
     netlifyIdentity.open();
     netlifyIdentity.on("login", (user) => {
       this.user = user;
@@ -27,7 +27,6 @@ const netlifyAuth = {
   },
 
   signout(callback: () => any) {
-    this.isAuthenticated = false;
     netlifyIdentity.logout();
     netlifyIdentity.on("logout", () => {
       this.user = null;
@@ -63,10 +62,12 @@ function App() {
 }
 
 const AuthButton = withRouter(({ history }) =>
-  netlifyAuth.isAuthenticated ? (
+  
+  netlifyIdentity.currentUser() != null ? (
     <p>
-      Welcome!{" "}
+      Welcome {netlifyIdentity.currentUser()?.user_metadata.full_name}
       <button
+        className="button"
         onClick={() => {
           netlifyAuth.signout(() => history.push("/"));
         }}
@@ -91,7 +92,8 @@ function PrivateRoute({
     <Route
       {...rest}
       render={(props) =>{
-        return netlifyAuth.isAuthenticated ? (
+        
+        return netlifyIdentity.currentUser() != null ? (
           <Component {...props} />
         ) : (
           <Redirect
