@@ -112,10 +112,7 @@ class Login extends React.Component<{ location?: any }> {
   /**
    *
    */
-  constructor(props: { location?: any }) {
-    super(props);
-    // this.props = props;
-  }
+ 
 
   login = () => {
     netlifyAuth.authenticate(() => {
