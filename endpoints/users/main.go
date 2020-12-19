@@ -22,13 +22,12 @@ const (
 )
 
 type user struct {
-	UserID        string  `json:"userId"`
-	Name          string  `json:"name"`
-	InitialWeight float64 `json:"initialWeight"`
+	UserID string `json:"userId"`
+	Name   string `json:"name"`
 }
 
 func getUsers(db *sql.DB) ([]user, error) {
-	rows, err := db.Query("SELECT * from users")
+	rows, err := db.Query("SELECT userid, name from users")
 
 	if err != nil {
 		return nil, err
@@ -38,7 +37,7 @@ func getUsers(db *sql.DB) ([]user, error) {
 	users := []user{}
 	for rows.Next() {
 		var u user
-		if err := rows.Scan(&u.UserID, &u.Name, &u.InitialWeight); err != nil {
+		if err := rows.Scan(&u.UserID, &u.Name); err != nil {
 			return nil, err
 		}
 		users = append(users, u)
