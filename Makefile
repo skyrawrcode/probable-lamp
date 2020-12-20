@@ -1,7 +1,7 @@
 .PHONY : build run runSam
 
 build:
-	if not exist "functions" mkdir functions 
+	mkdir functions 
 	go get ./endpoints/...
 	go build -o functions/users ./endpoints/users
 	npm run build
