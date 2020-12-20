@@ -13,7 +13,7 @@ import React, {  } from "react";
 export class Scores extends React.Component {
   loadScores = () => {
     const loadingScores = async () => {
-      const users = await fetch('.netlify/functions/users');
+      const users = await fetch('functions/users');
       console.log(await users.json());
       this.setState({ scores: [] });
     };

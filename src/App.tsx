@@ -12,6 +12,7 @@ import {
 import netlifyIdentity, { User } from "netlify-identity-widget";
 import { Home } from "./Home/Home";
 import { Scores } from "./Scores/Scores";
+import { Challengers } from "./Challengers/Challengers";
 
 export const netlifyAuth = {
  
@@ -44,6 +45,9 @@ function App() {
           <Link to="/">Home</Link>
         </li>
         <li>
+          <Link to="/challengers">Challengers</Link>
+        </li>
+        <li>
           <Link to="/scores">Scores</Link>
         </li>
         <li>
@@ -52,6 +56,7 @@ function App() {
       </ul>
       <Switch>
         <PrivateRoute path="/scores" component={Scores} />
+        <PrivateRoute path="/challengers" component={Challengers} />
         <Route path="/login" component={Login}/>
         <Route path="/">
           <Home />

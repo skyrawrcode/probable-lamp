@@ -15,6 +15,12 @@ interface Challenger{
 }
 
 export class Challengers extends React.Component<any, {challengers: Challenger[]}> {
+  
+  
+  get challengers() {
+    return this.state.challengers;
+  }
+
   /**
    *
    */
@@ -27,9 +33,10 @@ export class Challengers extends React.Component<any, {challengers: Challenger[]
 
   loadChallengers() {
     const loadChallengers = async () => {
-      const users = await fetch(".netlify/functions/users");
-        
-      this.setState({ challengers: await users.json() });
+      const users = await fetch("functions/users");
+      const usersJson = await users.json();
+
+      this.setState({ challengers: usersJson.users });
     };
 
     loadChallengers();
@@ -40,30 +47,18 @@ export class Challengers extends React.Component<any, {challengers: Challenger[]
   }
 
   render() {
-    const challengers = this.state.challengers.map((challenger) => (
-      <div className="card">
+    const challengers = this.challengers.map((challenger) => (
+      <div className="card" key={challenger.userId}>
         <div className="card-content">
-          <div className="media">
-            <div className="media-left">
-              <figure className="image is-48x48">
-                <img
-                  src="https://bulma.io/images/placeholders/96x96.png"
-                  alt="Placeholder imsage"
-                />
-              </figure>
-            </div>
-            <div className="media-content">
               <p className="title is-4">{challenger.name}</p>
-            </div>
-          </div>
         </div>
       </div>
     ));
 
     return (
-      <div className="Home">
+      <div>
         <header>
-          <h1>Skogman Weightloss Challenge</h1>
+          <h1>Skogman Weightloss Challenger</h1>
         </header>
         <div className="challengers">{challengers}</div>
       </div>
