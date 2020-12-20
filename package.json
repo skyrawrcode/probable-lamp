@@ -5,7 +5,6 @@
   "dependencies": {
     "bulma": "^0.9.1",
     "netlify-identity-widget": "^1.9.1",
-
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -23,7 +22,6 @@
     "eject": "react-scripts eject",
     "deploy:draft": "netlify deploy --dir=build --functions=functions",
     "deploy:prod": "netlify deploy --dir=build --functions=functions --prod",
-    "postinstall": "node fix.js"
   },
   "eslintConfig": {
     "extends": [

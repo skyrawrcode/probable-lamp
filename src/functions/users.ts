@@ -24,6 +24,7 @@ export const handler: Handler = async (
   const user = clientContext["user"];
   if (user) {
     let res = await client.query("SELECT userid, name from users");
+    
     client.release();
     const users = res.rows.map((row) => ({
       userId: row.userid,
