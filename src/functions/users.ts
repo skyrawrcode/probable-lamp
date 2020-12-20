@@ -1,34 +1,33 @@
 import { APIGatewayEvent, Context, Handler, Callback } from "aws-lambda";
-import { Pool, PoolConfig } from "pg";
+import {Client, query } from 'faunadb';
 
-const config: PoolConfig = {
-  user: process.env.DBUSER,
-  host: process.env.DBHOST,
-  database: process.env.DBNAME,
-  password: process.env.DBPASS,
-  port: +(process.env.DBPORT || 5432),
-  idleTimeoutMillis: 0,
-  max: 10000,
-};
-const pool: Pool = new Pool(config);
+
+
 
 // Instantiate the GoTrue auth client with an optional configuration
-
+// interface User {
+//   userId:string;
+//   name:string;
+// }
 export const handler: Handler = async (
   event: APIGatewayEvent,
   context: Context,
   callback: Callback
 ) => {
-  let client = await pool.connect();
+  const client = new Client({
+    secret: process.env.FAUNADB_SERVER_SECRET as string,
+  });
+  const response = await client.query(query.Map(query.Paginate(query.Match(query.Index('all_users'))), query.Lambda('userRef', query.Get(query.Var('userRef')))));
   const clientContext = context.clientContext as any;
   const user = clientContext["user"];
   if (user) {
-    let res = await client.query("SELECT userid, name from users");
-    
-    client.release();
-    const users = res.rows.map((row) => ({
-      userId: row.userid,
-      name: row.name,
+    let res = response as any;
+    console.log(res.data);
+
+
+    const users = res.data.map((row:any) => ({
+      userId: row.data.userId,
+      name: row.data.name,
     }));
     callback(null, {
       statusCode: 200,
