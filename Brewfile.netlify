@@ -1,1 +1,3 @@
+brew "krb5"
+brew "openssl@1.1"
 brew "libpq"
