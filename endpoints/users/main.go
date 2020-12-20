@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
+
 	"github.com/aws/aws-lambda-go/lambda"
 	_ "github.com/lib/pq"
 )
@@ -46,14 +49,15 @@ func getUsers(db *sql.DB) ([]user, error) {
 	return users, nil
 }
 
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	users, err := getUsers(db)
 
 	if err != nil {
+
 		return events.APIGatewayProxyResponse{
 			StatusCode: 500,
-			Body:       "An error has occurred",
-		}, err
+			Body:       "test",
+		}, errors.New(err.Error())
 	}
 
 	bytes, err := json.Marshal(users)
@@ -68,10 +72,11 @@ func main() {
 	defer db.Close()
 
 	// Make the handler available for Remote Procedure Call by AWS Lambda
-	lambda.Start(handler)
+	lambda.Start(handleRequest)
 }
 
 func initDb() {
+	fmt.Println("Hello from initDb")
 	config := dbConfig()
 	var err error
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
