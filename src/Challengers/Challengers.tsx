@@ -4,19 +4,20 @@ import React from "react";
 
 // import { netlifyAuth } from "../App";
 
-// import netlifyIdentity, { User } from "netlify-identity-widget";
+import netlifyIdentity from "netlify-identity-widget";
 
 // function timeout(ms:number) () {
 //     return new Promise()
 // }
-interface Challenger{
-    userId: string;
-    name: string;
+interface Challenger {
+  userId: string;
+  name: string;
 }
 
-export class Challengers extends React.Component<any, {challengers: Challenger[]}> {
-  
-  
+export class Challengers extends React.Component<
+  any,
+  { challengers: Challenger[] }
+> {
   get challengers() {
     return this.state.challengers;
   }
@@ -24,7 +25,7 @@ export class Challengers extends React.Component<any, {challengers: Challenger[]
   /**
    *
    */
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.state = {
       challengers: [],
@@ -33,7 +34,12 @@ export class Challengers extends React.Component<any, {challengers: Challenger[]
 
   loadChallengers() {
     const loadChallengers = async () => {
-      const users = await fetch("functions/users");
+      const users = await fetch("functions/users", {
+        headers: new Headers({
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${netlifyIdentity.currentUser()?.token?.access_token}`,
+        } as any), 
+      });
       const usersJson = await users.json();
 
       this.setState({ challengers: usersJson.users });
@@ -50,7 +56,7 @@ export class Challengers extends React.Component<any, {challengers: Challenger[]
     const challengers = this.challengers.map((challenger) => (
       <div className="card" key={challenger.userId}>
         <div className="card-content">
-              <p className="title is-4">{challenger.name}</p>
+          <p className="title is-4">{challenger.name}</p>
         </div>
       </div>
     ));

@@ -12,18 +12,30 @@ const config: PoolConfig = {
 };
 const pool: Pool = new Pool(config);
 
+// Instantiate the GoTrue auth client with an optional configuration
+
 export const handler: Handler = async (
   event: APIGatewayEvent,
   context: Context,
   callback: Callback
 ) => {
   let client = await pool.connect();
-
-  let res = await client.query("SELECT userid, name from users");
-  client.release();
-  const users = res.rows.map((row) => ({userId: row.userid, name: row.name}))
-  callback(null, {
-    statusCode: 200,
-    body: JSON.stringify({ users: users  }),
-  });
+  const clientContext = context.clientContext as any;
+  const user = clientContext["user"];
+  if (user) {
+    let res = await client.query("SELECT userid, name from users");
+    client.release();
+    const users = res.rows.map((row) => ({
+      userId: row.userid,
+      name: row.name,
+    }));
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify({ users: users }),
+    });
+  } else {
+    callback(null, {
+      statusCode: 401
+    })
+  }
 };
