@@ -1,23 +1,18 @@
-import "./Challengers.scss";
+import "./Roster.scss";
 
 import React from "react";
+import {UserService} from "../Services/UserService"
 
-// import { netlifyAuth } from "../App";
-
-import netlifyIdentity from "netlify-identity-widget";
-
-// function timeout(ms:number) () {
-//     return new Promise()
-// }
 interface Challenger {
   userId: string;
   name: string;
 }
 
-export class Challengers extends React.Component<
+export class Roster extends React.Component<
   any,
   { challengers: Challenger[] }
 > {
+  service: UserService;
   get challengers() {
     return this.state.challengers;
   }
@@ -30,19 +25,15 @@ export class Challengers extends React.Component<
     this.state = {
       challengers: [],
     };
+    this.service = new UserService();
+
   }
 
   loadChallengers() {
     const loadChallengers = async () => {
-      const users = await fetch("functions/users", {
-        headers: new Headers({
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${netlifyIdentity.currentUser()?.token?.access_token}`,
-        } as any), 
-      });
+      const users = await this.service.getUsers()
       const usersJson = await users.json();
-
-      this.setState({ challengers: usersJson.users });
+      this.setState({ challengers:  usersJson.users});
     };
 
     loadChallengers();
@@ -56,7 +47,9 @@ export class Challengers extends React.Component<
     const challengers = this.challengers.map((challenger) => (
       <div className="card" key={challenger.userId}>
         <div className="card-content">
-          <p className="title is-4">{challenger.name}</p>
+          <div className="content">
+            <p className="title is-4">{challenger.name}</p>
+          </div>
         </div>
       </div>
     ));

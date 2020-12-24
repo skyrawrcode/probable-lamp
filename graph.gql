@@ -1,0 +1,20 @@
+
+type Weight  {
+  date: Date!
+  weight: Float!
+  user: User!
+}
+
+type User {
+  userId: String! @unique(index: "findUserByUserId")
+  name: String!
+  initialWeight: Float
+  currentWeight: Float
+  weights: [Weight!] @relation
+}
+
+type Query {
+  findUserByUserId(userId: String!): User
+  allUsers: [User!] @index(name: "allUsers")
+}
+
