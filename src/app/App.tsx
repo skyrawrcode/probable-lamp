@@ -10,11 +10,11 @@ import {
 
 import netlifyIdentity, { User } from "netlify-identity-widget";
 import { Home } from "./Home/Home";
-import { Scores } from "./Scores/Scores";
 import { Roster } from "./Roster/Roster";
 import { PrivateRoute } from "./PrivateRoute";
 import { netlifyAuth } from "./NetlifyAuth";
 import { Subscription } from "rxjs";
+import { Leaderboard } from './Leaderboard/Leaderboard'
 
 export class App extends Component<any, { user: User | null }> {
   userSubscription: Subscription | null = null;
@@ -29,6 +29,7 @@ export class App extends Component<any, { user: User | null }> {
       this.setState({ user: user });
     });
   }
+
   componentWillUnmount() {
     if (this.userSubscription) this.userSubscription.unsubscribe();
   }
@@ -45,12 +46,12 @@ export class App extends Component<any, { user: User | null }> {
           )}
           {this.state.user && (
             <li>
-              <Link to="/scores">Scores</Link>
+              <Link to="/leaderboard">Scores</Link>
             </li>
           )}
         </ul>
         <Switch>
-          <PrivateRoute path="/scores" component={Scores} />
+          <PrivateRoute path="/leaderboard" component = {Leaderboard} />
           <PrivateRoute path="/roster" component={Roster} />
           <Route path="/login" component={Home} />
           <Route path="/">

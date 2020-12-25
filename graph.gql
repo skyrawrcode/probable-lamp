@@ -13,8 +13,20 @@ type User {
   weights: [Weight!] @relation
 }
 
+type Leaderboard @embedded {
+  data: [LeaderboardEntry!]
+}
+
+type LeaderboardEntry @embedded {
+  percentage: Float!,
+  userId: String!,
+  name: String,
+  ref: ID!
+}
+
 type Query {
   findUserByUserId(userId: String!): User
   allUsers: [User!] @index(name: "allUsers")
+  leaderboard(size: Int = 10): Leaderboard @resolver(name: "leaderboard")
 }
 

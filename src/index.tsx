@@ -8,6 +8,7 @@ import netlifyIdentity from 'netlify-identity-widget';
 (window as any).netlifyIdentity = netlifyIdentity;
 // You must run this once before trying to interact with the widget
 
+
 netlifyIdentity.init();
 ReactDOM.render(
   <React.StrictMode>
