@@ -47,7 +47,7 @@ export class App extends Component<any, { user: User | null }> {
             </p>
           )}
           <div className="level-item has-text-centered">
-            <h1>Skogman Weightloss Challenge</h1>
+            <h1>Weightless</h1>
           </div>
           {this.state.user && (
             <p className="level-item has-text-centered">

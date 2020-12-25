@@ -1,6 +1,8 @@
 import "./Roster.scss";
 
 import React from "react";
+
+import ReactWordcloud, {OptionsProp} from 'react-wordcloud';
 import {UserService} from "../Services/UserService"
 
 interface Challenger {
@@ -45,22 +47,22 @@ export class Roster extends React.Component<
   }
 
   render() {
-    const challengers = this.challengers.map((challenger) => (
-      <div className="card" key={challenger.userId}>
-        <div className="card-content">
-          <div className="content">
-            <p className="title is-4">{challenger.name}</p>
-          </div>
-        </div>
-      </div>
-    ));
-
+    const challengers = this.challengers.map((challenger) => ({text: challenger.name, value: 1}));
+    challengers.push({value:1, text: "Derrick"})
+    const options: OptionsProp = {
+      spiral: "archimedean",
+      deterministic: false,
+      rotations: 3
+    };
     return (
-      <div>
+      <div className="roster">
         <header>
-          <h2>Roster</h2>
+          <h2 className="page-heading">Roster</h2>
         </header>
-        <div className="challengers">{challengers}</div>
+        <div className="challengers">
+          <ReactWordcloud words={challengers} options={options}/>
+          
+        </div>
       </div>
     );
   }

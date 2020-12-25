@@ -51,8 +51,7 @@ export const handler: Handler = async (
 ) => {
   const clientContext = context.clientContext as any;
   const user = clientContext["user"];
-  // if (user) {
-    console.log(user);
+  if (user) {
     switch (event.httpMethod) {
       case "GET":
         await getUsers(event, context, callback);
@@ -61,9 +60,9 @@ export const handler: Handler = async (
         await getUsers(event, context, callback);
         break;
     }
-  // } else {
-  //   callback(null, {
-  //     statusCode: 401,
-  //   });
-  // }
+  } else {
+    callback(null, {
+      statusCode: 401,
+    });
+  }
 };

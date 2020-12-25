@@ -15,12 +15,12 @@ export class Leaderboard extends React.Component<
     super(prop);
     this.state = { leaderboard: { top: [] }, loaded: true };
   }
+
   loadScores = () => {
     const loadingScores = async () => {
       const leaderboard = await LeaderboardService.getLeaderboard();
       this.setState({ leaderboard: await leaderboard, loaded: true });
     };
-
     loadingScores();
   };
 
@@ -66,15 +66,15 @@ export class Leaderboard extends React.Component<
               <table className="table">
                 <thead>
                   <tr>
-                    <td>
+                    <th>
                       <p className="heading">Rank</p>
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                       <p className="heading">Name</p>
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                       <p className="heading has-text-right">Percentage Lost</p>
-                    </td>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
