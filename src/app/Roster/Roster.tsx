@@ -10,7 +10,7 @@ interface Challenger {
 
 export class Roster extends React.Component<
   any,
-  { challengers: Challenger[] }
+  { challengers: Challenger[], loaded: boolean; }
 > {
   service: UserService;
   get challengers() {
@@ -24,6 +24,7 @@ export class Roster extends React.Component<
     super(props);
     this.state = {
       challengers: [],
+      loaded: false
     };
     this.service = new UserService();
 
@@ -33,7 +34,7 @@ export class Roster extends React.Component<
     const loadChallengers = async () => {
       const users = await this.service.getUsers()
       const usersJson = await users.json();
-      this.setState({ challengers:  usersJson.users});
+      this.setState({ challengers:  usersJson.users, loaded: true});
     };
 
     loadChallengers();
@@ -57,7 +58,7 @@ export class Roster extends React.Component<
     return (
       <div>
         <header>
-          <h1>Skogman Weightloss Challenger</h1>
+          <h2>Roster</h2>
         </header>
         <div className="challengers">{challengers}</div>
       </div>

@@ -14,7 +14,7 @@ import { Roster } from "./Roster/Roster";
 import { PrivateRoute } from "./PrivateRoute";
 import { netlifyAuth } from "./NetlifyAuth";
 import { Subscription } from "rxjs";
-import { Leaderboard } from './Leaderboard/Leaderboard'
+import { Leaderboard } from "./Leaderboard/Leaderboard";
 
 export class App extends Component<any, { user: User | null }> {
   userSubscription: Subscription | null = null;
@@ -38,20 +38,28 @@ export class App extends Component<any, { user: User | null }> {
     return (
       <Router>
         <AuthButton />
-        <ul>
+        <nav className="level">
           {this.state.user && (
-            <li>
-              <Link to="/roster">Roster</Link>
-            </li>
+            <p className="level-item has-text-centered">
+              <Link to="/roster" className="link">
+                Roster
+              </Link>
+            </p>
           )}
+          <div className="level-item has-text-centered">
+            <h1>Skogman Weightloss Challenge</h1>
+          </div>
           {this.state.user && (
-            <li>
-              <Link to="/leaderboard">Scores</Link>
-            </li>
+            <p className="level-item has-text-centered">
+              <Link to="/leaderboard" className="link">
+                Leaderboard
+              </Link>
+            </p>
           )}
-        </ul>
+        </nav>
+
         <Switch>
-          <PrivateRoute path="/leaderboard" component = {Leaderboard} />
+          <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <PrivateRoute path="/roster" component={Roster} />
           <Route path="/login" component={Home} />
           <Route path="/">

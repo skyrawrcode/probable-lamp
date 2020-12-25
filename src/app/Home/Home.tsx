@@ -34,7 +34,7 @@ export class Home extends React.Component<{ location?: any }, HomeState> {
     let { from } = this.props?.location?.state || { from: { pathname: "/" } };
     let { redirectToReferrer, user } = this.state;
 
-    if (user) return <Redirect to="/scores" />;
+    if (user) return <Redirect to="/leaderboard" />;
     if (redirectToReferrer) return <Redirect to={from} />;
 
     return (
