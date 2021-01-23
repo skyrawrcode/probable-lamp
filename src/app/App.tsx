@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import  {  FunctionComponent, useEffect, useState } from "react";
 import "./App.scss";
 import {
   BrowserRouter as Router,
@@ -16,59 +16,54 @@ import { netlifyAuth } from "./NetlifyAuth";
 import { Subscription } from "rxjs";
 import { Leaderboard } from "./Leaderboard/Leaderboard";
 
-export class App extends Component<any, { user: User | null }> {
-  userSubscription: Subscription | null = null;
+export const App: FunctionComponent = () => {
+  const initialState: { user: User | null } = { user: null };
+  const [state, setState] = useState(initialState);
 
-  constructor(props: any) {
-    super(props);
-    this.state = { user: null };
-  }
+  useEffect(() => {
+    let userSubscription: Subscription | null = null;
 
-  componentDidMount() {
-    this.userSubscription = netlifyAuth.user$.subscribe((user) => {
-      this.setState({ user: user });
+    userSubscription = netlifyAuth.user$.subscribe((user) => {
+      setState({ user: user });
     });
-  }
+    return () => {
+      if (userSubscription) userSubscription.unsubscribe();
+    };
+  }, []);
 
-  componentWillUnmount() {
-    if (this.userSubscription) this.userSubscription.unsubscribe();
-  }
+  return (
+    <Router>
+      <AuthButton />
+      <div>
+        <h1 className="font-light lowercase tracking-tighter animate-pulse">
+          Weightless
+        </h1>
+      </div>
+      <nav className="flex justify-evenly space-x-40">
+        {state.user && (
+          <Link to="/roster" className="">
+            Roster
+          </Link>
+        )}
 
-  render() {
-    return (
-      <Router>
-        <AuthButton />
-        <div>
-          <h1 className="font-light lowercase tracking-tighter animate-pulse">
-            Weightless
-          </h1>
-        </div>
-        <nav className="flex justify-evenly space-x-40" >
-          {this.state.user && (
-              <Link to="/roster" className="">
-                Roster
-              </Link>
-          )}
+        {state.user && (
+          <Link to="/leaderboard" className="">
+            Leaderboard
+          </Link>
+        )}
+      </nav>
 
-          {this.state.user && (
-              <Link to="/leaderboard" className="">
-                Leaderboard
-              </Link>
-          )}
-        </nav>
-
-        <Switch>
-          <PrivateRoute path="/leaderboard" component={Leaderboard} />
-          <PrivateRoute path="/roster" component={Roster} />
-          <Route path="/login" component={Home} />
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </Router>
-    );
-  }
-}
+      <Switch>
+        <PrivateRoute path="/leaderboard" component={Leaderboard} />
+        <PrivateRoute path="/roster" component={Roster} />
+        <Route path="/login" component={Home} />
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
 
 const AuthButton = withRouter(({ history }) =>
   netlifyIdentity.currentUser() != null ? (
