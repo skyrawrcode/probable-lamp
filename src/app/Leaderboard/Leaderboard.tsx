@@ -37,27 +37,17 @@ export class Leaderboard extends React.Component<
 
     const leaderboardRows = leaderboard.top?.map((entry, index) => (
       <tr className="leaderboard-list" key={entry.userId}>
-        <td className="">
-          <div>
-            <p className="title">{index + 1}.</p>
-          </div>
-        </td>
-        <td className="">
-          <div>
-            <p className="title">{entry.name}</p>
-          </div>
-        </td>
-        <td className=" has-text-right">
-          <div>
-            <p className="title">{(entry.percentage * 100).toFixed(2)}%</p>
-          </div>
-        </td>
+        <th className="" scope="row">
+          {index + 1}.
+        </th>
+        <td className="">{entry.name}</td>
+        <td className="text-right">{(entry.percentage * 100).toFixed(2)}%</td>
       </tr>
     ));
 
     return (
       <div className="leaderboard">
-        <header className="has-text-centered">
+        <header className="text-center">
           <h2 className="page-heading">Leaderboard</h2>
         </header>
         <div className="scores">
@@ -66,20 +56,14 @@ export class Leaderboard extends React.Component<
               <table className="table">
                 <thead>
                   <tr>
-                    <th>
-                      <p className="heading">Rank</p>
-                    </th>
-                    <th>
-                      <p className="heading">Name</p>
-                    </th>
-                    <th>
-                      <p className="heading has-text-right">Percentage Lost</p>
+                    <th className="whitespace-nowrap">Rank</th>
+                    <th className="whitespace-nowrap">Name</th>
+                    <th className="whitespace-nowrap text-center">
+                      Percentage Lost
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {leaderboardRows}
-                </tbody>
+                <tbody>{leaderboardRows}</tbody>
               </table>
             </div>
           </div>

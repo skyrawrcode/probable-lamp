@@ -14,6 +14,13 @@ export class Roster extends React.Component<
   any,
   { challengers: Challenger[], loaded: boolean; }
 > {
+      
+  private readonly options: OptionsProp = {
+    spiral: "archimedean",
+    deterministic: false,
+    rotations: 3,
+    enableTooltip: false
+  };
   service: UserService;
   get challengers() {
     return this.state.challengers;
@@ -48,20 +55,15 @@ export class Roster extends React.Component<
 
   render() {
     const challengers = this.challengers.map((challenger) => ({text: challenger.name, value: 1}));
-    challengers.push({value:1, text: "Derrick"})
-    const options: OptionsProp = {
-      spiral: "archimedean",
-      deterministic: false,
-      rotations: 3
-    };
+
     return (
       <div className="roster">
         <header>
           <h2 className="page-heading">Roster</h2>
         </header>
         <div className="challengers">
-          <ReactWordcloud words={challengers} options={options}/>
-          
+          <ReactWordcloud words={challengers} options={this.options}/>
+        
         </div>
       </div>
     );

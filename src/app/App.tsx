@@ -38,23 +38,22 @@ export class App extends Component<any, { user: User | null }> {
     return (
       <Router>
         <AuthButton />
-        <nav className="level">
+        <div>
+          <h1 className="font-light lowercase tracking-tighter animate-pulse">
+            Weightless
+          </h1>
+        </div>
+        <nav className="flex justify-evenly space-x-40" >
           {this.state.user && (
-            <p className="level-item has-text-centered">
-              <Link to="/roster" className="link">
+              <Link to="/roster" className="">
                 Roster
               </Link>
-            </p>
           )}
-          <div className="level-item has-text-centered">
-            <h1>Weightless</h1>
-          </div>
+
           {this.state.user && (
-            <p className="level-item has-text-centered">
-              <Link to="/leaderboard" className="link">
+              <Link to="/leaderboard" className="">
                 Leaderboard
               </Link>
-            </p>
           )}
         </nav>
 
@@ -73,19 +72,20 @@ export class App extends Component<any, { user: User | null }> {
 
 const AuthButton = withRouter(({ history }) =>
   netlifyIdentity.currentUser() != null ? (
-    <p>
-      Welcome {netlifyIdentity.currentUser()?.user_metadata.full_name}
+    <div>
+      <div>{netlifyIdentity.currentUser()?.user_metadata.full_name}</div>
       <button
-        className="button"
+        type="button"
+        className="p-2 rounded-md shadow-sm"
         onClick={() => {
           netlifyAuth.signout(() => history.push("/"));
         }}
       >
         Sign out
       </button>
-    </p>
+    </div>
   ) : (
-    <p>You are not logged in.</p>
+    <div>You are not logged in.</div>
   )
 );
 

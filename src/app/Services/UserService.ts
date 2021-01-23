@@ -10,10 +10,14 @@ export class UserService {
         
     // }
 
+    async getUser(userId: string) {
+        return await fetch(`functions/users/?userId=${userId}`
+            , {headers: this.getHeaders()})
+    }
+
     async getUsers() {
-        const headers = this.getHeaders();
-        return await fetch("functions/users", {headers: headers});
-    
+        this.getUser("1");
+        return await fetch("functions/users/", {headers: this.getHeaders()});
     }
 
 
