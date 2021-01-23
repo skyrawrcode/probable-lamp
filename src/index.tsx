@@ -5,6 +5,8 @@ import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import netlifyIdentity from 'netlify-identity-widget';
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 (window as any).netlifyIdentity = netlifyIdentity;
 // You must run this once before trying to interact with the widget
 
@@ -16,6 +18,8 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
