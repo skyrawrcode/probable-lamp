@@ -10,22 +10,21 @@ interface Challenger {
   name: string;
 }
 
-export const Roster: FunctionComponent<{
-  challengers: Challenger[];
-  loaded: boolean;
-}> = (
-  defaultState = {
-    challengers: [],
-    loaded: false,
-  }
-) => {
+export const Roster: FunctionComponent = () => {
   const wordcloudOptions: OptionsProp = {
     spiral: "archimedean",
     deterministic: false,
     rotations: 3,
     enableTooltip: false,
   };
-  
+
+  const defaultState: {
+    challengers: Challenger[];
+    loaded: boolean;
+  } = {
+    challengers: [],
+    loaded: false,
+  };
   const [state, setChallengers] = useState(defaultState);
 
   useEffect(() => {
@@ -44,11 +43,9 @@ export const Roster: FunctionComponent<{
   }));
 
   return (
-    <div className="roster">
-      <header>
-        <h2 className="page-heading">Roster</h2>
-      </header>
-      <div className="challengers">
+    <div className="">
+      <h2 className="sr-only">Roster</h2>
+      <div className="sm:mx-0 mx-2">
         <ReactWordcloud words={challengers} options={wordcloudOptions} />
       </div>
     </div>

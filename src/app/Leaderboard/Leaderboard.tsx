@@ -29,7 +29,7 @@ export const Leaderboard: FunctionComponent<any> = () => {
   const leaderboard = leaderBoardData.leaderboard;
 
   const leaderboardRows = leaderboard.top?.map((entry, index) => (
-    <tr className="leaderboard-list" key={entry.userId}>
+    <tr className="" key={entry.userId}>
       <th className="" scope="row">
         {index + 1}.
       </th>
@@ -39,26 +39,22 @@ export const Leaderboard: FunctionComponent<any> = () => {
   ));
 
   return (
-    <div className="leaderboard">
-      <header className="text-center">
-        <h2 className="page-heading">Leaderboard</h2>
-      </header>
-      <div className="scores">
-        <div className="card">
-          <div className="card-content">
-            <table className="table">
+    <div className="">
+      <h2 className="sr-only">Leaderboard</h2>
+      <div className="flex flex-row justify-center mt-1">
+        <div className="rounded-md bg-blue-100 px-5 py-3 shadow-md flex-grow md:flex-grow-0 mx-4 md:w-96">
+            <table className=" w-full">
               <thead>
                 <tr>
-                  <th className="whitespace-nowrap">Rank</th>
-                  <th className="whitespace-nowrap">Name</th>
-                  <th className="whitespace-nowrap text-center">
-                    Percentage Lost
+                  <th className="whitespace-nowrap uppercase font-mono tracking-tighter">Rank</th>
+                  <th className="whitespace-nowrap uppercase font-mono tracking-tighter text-left">Name</th>
+                  <th className="whitespace-nowrap uppercase font-mono tracking-tighter text-right">
+                    Loss(%) 
                   </th>
                 </tr>
               </thead>
               <tbody>{leaderboardRows}</tbody>
             </table>
-          </div>
         </div>
       </div>
     </div>
