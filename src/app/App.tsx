@@ -62,9 +62,9 @@ export const App: FunctionComponent = () => {
           )}
         </nav>
       </header>
-      <div>
-        {generateQuip(3)}
-      </div>
+      <aside className="text-center my-2">
+        {generateQuip(.003)}
+      </aside>
       <main>
         <Switch>
           <PrivateRoute path="/leaderboard" component={Leaderboard} />
